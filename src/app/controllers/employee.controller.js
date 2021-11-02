@@ -3,14 +3,16 @@ const { Employee } = require('../models');
 const create = async (req, res) => {
 	try {
 		const {
-			name,email,department,salary,birth_date
+			name,email,department,salary,birth_date,password
 		} = req.body;
 
-		const employee = await Employee.create({
-			name,email,department,salary,birth_date
+		const {name,email,department,salary,birth_date} = await Employee.create({
+			name,email,department,salary,birth_date,password
 		});
 
-		return res.status(201).json(employee);
+		return res.status(201).json({
+			name,email,department,salary,birth_date
+		});
 
 	} catch (error) {
 		return res.status(500).json({
@@ -84,6 +86,7 @@ const details = async (req, res) => {
 		});
 	}
 }
+
 module.exports = {
 	create,
 	list,

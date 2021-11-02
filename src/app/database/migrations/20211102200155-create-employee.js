@@ -19,6 +19,13 @@ module.exports = {
           isEmail: true
         }
       },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          isAlphaNumeric: true
+        }
+      },
       department: {
         allowNull: false,
         type: Sequelize.STRING

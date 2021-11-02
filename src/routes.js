@@ -4,8 +4,9 @@ const routes = Router();
 
 const employeeController = require('./app/controllers/employee.controller');
 
+// ROTAS PUBLICAS
 routes.get('/', (req, res) => {
-    res.json({message: 'hello'})
+    res.json({message: 'Tudo ok por aqui :)'});
 });
 
 // EMPLOYEES
