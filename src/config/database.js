@@ -1,12 +1,14 @@
-require('dotenv');
+require('dotenv/config');
 
 module.exports = {
-  "username": process.env.PGUSER,
-  "password": process.env.PGPASSWORD,
-  "database": process.env.PGDATABASE,
-  "host": "127.0.0.1",
-  "dialect": "postgres",
-  "define": {
-    timestamps: true
+  "development": {
+    "username": process.env.PGUSER,
+    "password": process.env.PGPASSWORD,
+    "database": process.env.DATABASE,
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "define": {
+      "timestamps":true
+    }
   }
 }
