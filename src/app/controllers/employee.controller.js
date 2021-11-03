@@ -1,11 +1,10 @@
-const { Employee, Manager } = require('../models');
+const { Employee } = require('../models');
+
+const util = require('../util/util');
 
 const create = async (req, res) => {
 	try {
-		const managerId = req.userId;
-		const manager = await Manager.findByPk(managerId);
-
-		if (manager) {
+		if (util.managerIsRegistred(req.userId)) {
 			const {
 				name,email,department,salary,birth_date
 			} = req.body;
@@ -27,17 +26,14 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
 	try {
-		const managerId = req.userId;
-		const manager = await Manager.findByPk(managerId);
-		
-		if (manager) {
+		if (util.managerIsRegistred(req.userId)) {
 			const employees = await Employee.findAll({
 				attributes: ['id','name','email','department','salary','birth_date']
 			});
 	
 			return res.status(200).json(employees);
 		}
-		return res.status(404).json({message: 'Manager not registered'}); 		
+		return res.status(404).json({ message: 'Manager not registered' }); 		
 
 	} catch (error) {
 		return res.status(500).json({
@@ -49,17 +45,15 @@ const list = async (req, res) => {
 const update = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const managerId = req.userId;
-		const manager = await Manager.findByPk(managerId);
 
-		if (manager) {
+		if (util.managerIsRegistred(req.userId)) {
 			const employee = await Employee.findByPk(id);
 
 			const updated = await employee.update(req.body);
 
 			return res.status(200).json(updated);
 		}
-		return res.status(404).json({message: 'Manager not registered'});
+		return res.status(404).json({ message: 'Manager not registered' });
 
 	} catch (error) {
 		return res.status(500).json({
@@ -71,15 +65,13 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
 	try {
 		const id = req.params.id;
-		const managerId = req.userId;
-		const manager = await Manager.findByPk(managerId);
 
-		if (manager) {
+		if (util.managerIsRegistred(req.userId)) {
 			await Employee.destroy({ where: {id:id} });
 	
 			return res.status(200).json({	message: `Deleted successfully`	});
 		}
-		return res.status(404).json({message: 'Manager not registered'});
+		return res.status(404).json({ message: 'Manager not registered' });
 
 	} catch (error) {
 		return res.status(500).json({
@@ -91,15 +83,13 @@ const remove = async (req, res) => {
 const details = async (req, res) => {
 	try {
 		const {id} = req.params;
-		const managerId = req.userId;
-		const manager = await Manager.findByPk(managerId);
 
-		if (manager) {
+		if (util.managerIsRegistred(req.userId)) {
 			const employee = await Employee.findByPk(id);
 
 			return res.status(200).json(employee);
 		}
-		return res.status(404).json({message: 'Manager not registered'});
+		return res.status(404).json({ message: 'Manager not registered' });
 
 	} catch (error) {
 		return res.status(500).json({

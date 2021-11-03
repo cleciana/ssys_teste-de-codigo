@@ -8,7 +8,7 @@ const authController = require('./app/controllers/auth.controller');
 // ROTAS PUBLICAS
 
 routes.get('/', (req, res) => {
-    res.json({message: 'Tudo ok por aqui :)'});
+	res.json({message: 'Tudo ok por aqui :)'});
 });
 // POST: /login/ (Manager login)
 routes.post('/login', authController.login);
