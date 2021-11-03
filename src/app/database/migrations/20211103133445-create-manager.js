@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Employees', {
+    await queryInterface.createTable('Managers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,23 +13,17 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        unique: true,
         type: Sequelize.STRING,
         validate: {
           isEmail: true
         }
       },
-      department: {
+      password: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      salary: {
-        allowNull: false,
-        type: Sequelize.FLOAT
-      },
-      birth_date: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
+        type: Sequelize.STRING,
+        validate: {
+          isAlphaNumeric: true
+        }
       },
       createdAt: {
         allowNull: false,
@@ -42,6 +36,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Employees');
+    await queryInterface.dropTable('Managers');
   }
 };

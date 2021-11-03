@@ -8,12 +8,12 @@ const authController = require('./app/controllers/auth.controller');
 routes.get('/', (req, res) => {
     res.json({message: 'Tudo ok por aqui :)'});
 });
-// POST: /login/ (employee login)
+// POST: /login/ (Manager login)
 routes.post('/login', authController.login);
-// POST: /employees/ (employee create)
-routes.post('/employees', employeeController.create);
 
 // ROTAS PRIVADAS
+// POST: /employees/ (employee create)
+routes.post('/employees', authController.verifyJWT, employeeController.create);
 // GET: /employees/ (employee list)
 routes.get('/employees', authController.verifyJWT, employeeController.list);
 // UPDATE /employees/ID/ (employee update)
