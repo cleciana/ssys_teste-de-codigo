@@ -1,24 +1,26 @@
 const Router = require('express');
-
 const routes = Router();
 
 const employeeController = require('./app/controllers/employee.controller');
+const authController = require('./app/controllers/auth.controller');
 
 // ROTAS PUBLICAS
 routes.get('/', (req, res) => {
     res.json({message: 'Tudo ok por aqui :)'});
 });
-
-// EMPLOYEES
-// GET: /employees/ (employee list)
-routes.get('/employees', employeeController.list);
+// POST: /login/ (employee login)
+routes.post('/login', authController.login);
 // POST: /employees/ (employee create)
 routes.post('/employees', employeeController.create);
+
+// ROTAS PRIVADAS
+// GET: /employees/ (employee list)
+routes.get('/employees', authController.verifyJWT, employeeController.list);
 // UPDATE /employees/ID/ (employee update)
-routes.put('/employees/:id', employeeController.update);
+routes.put('/employees/:id', authController.verifyJWT, employeeController.update);
 // DELETE /employees/ID/ (employee delete)
-routes.delete('/employees/:id', employeeController.remove);
+routes.delete('/employees/:id', authController.verifyJWT, employeeController.remove);
 // GET /employees/ID/ (employee detail)
-routes.get('/employees/:id', employeeController.details);
+routes.get('/employees/:id', authController.verifyJWT, employeeController.details);
 
 module.exports = routes;

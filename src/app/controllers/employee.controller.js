@@ -6,13 +6,11 @@ const create = async (req, res) => {
 			name,email,department,salary,birth_date,password
 		} = req.body;
 
-		const {name,email,department,salary,birth_date} = await Employee.create({
+		const employee = await Employee.create({
 			name,email,department,salary,birth_date,password
 		});
 
-		return res.status(201).json({
-			name,email,department,salary,birth_date
-		});
+		return res.status(201).json(employee);
 
 	} catch (error) {
 		return res.status(500).json({
@@ -23,11 +21,17 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
 	try {
-		const employees = await Employee.findAll({
-			attributes: ['id','name','email','department','salary','birth_date']
-		});
-
-		return res.status(200).json(employees);
+		const id = req.userId;
+		const employee = await Employee.findByPk(id);
+		
+		if (employee) {
+			const employees = await Employee.findAll({
+				attributes: ['id','name','email','department','salary','birth_date']
+			});
+	
+			return res.status(200).json(employees);
+		}
+		return res.status(404).json({message: 'Usuario nao cadastrado'}); 		
 
 	} catch (error) {
 		return res.status(500).json({
@@ -39,12 +43,18 @@ const list = async (req, res) => {
 const update = async (req, res) => {
 	try {
 		const { id } = req.params;
+		const userId = req.userId;
 
-		const employee = await Employee.findByPk(id);
+		if (id == userId) {
+			const employee = await Employee.findByPk(id);
 
-		const updated = await employee.update(req.body);
+			const updated = await employee.update(req.body);
 
-		return res.status(200).json(updated);
+			return res.status(200).json(updated);
+		}
+		return res.status(403).json({
+			message: "Voce nao tem permissao para realizar esta acao"
+		});
 
 	} catch (error) {
 		return res.status(500).json({
@@ -55,14 +65,16 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
 	try {
-		const id = req.params;
+		const id = req.params.id;
+		const userId = req.userId;
 
-		await Employee.destroy({
-			where: id
-		});
-
-		return res.status(200).json({
-			message: `Deletado com sucesso`
+		if (id == userId) {
+			await Employee.destroy({ where: {id:id} });
+	
+			return res.status(200).json({	message: `Deletado com sucesso`	});
+		}
+		return res.status(403).json({
+			message: "Voce nao tem permissao para realizar esta acao"
 		});
 
 	} catch (error) {
@@ -75,10 +87,16 @@ const remove = async (req, res) => {
 const details = async (req, res) => {
 	try {
 		const {id} = req.params;
+		const userId = req.userId;
 
-		const employee = await Employee.findByPk(id);
+		if (id == userId) {
+			const employee = await Employee.findByPk(id);
 
-		return res.status(200).json(employee);
+			return res.status(200).json(employee);
+		}
+		return res.status(403).json({
+			message: "Voce nao tem permissao para realizar esta acao"
+		});
 
 	} catch (error) {
 		return res.status(500).json({
