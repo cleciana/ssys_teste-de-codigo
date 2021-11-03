@@ -27,7 +27,7 @@ routes.delete('/employees/:id', authController.verifyJWT, employeeController.rem
 routes.get('/employees/:id', authController.verifyJWT, employeeController.details);
 
 // GET /reports/employees/salary/ (salary report)
-//routes.get('/reports/employees/salary', reportController.salaryReport);
+routes.get('/reports/employees/salary', authController.verifyJWT, reportController.salaryReport);
 // GET /reports/employees/age/ (age report)
 routes.get('/reports/employees/age', authController.verifyJWT, reportController.ageReport);
 
