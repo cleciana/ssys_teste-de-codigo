@@ -1,0 +1,28 @@
+version: "3.8"
+
+services: ## Define um serviço
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DATABASE: "${PGDATABASE}"
+      POSTGRES_USER: "${PGUSER}"
+      POSTGRES_PASSWORD: "${PGPASSWORD}"
+      POSTGRES_HOST_AUTH_METHOD: "${PGAUTH}"
+    ports:
+     - "5432:5432"
+    network_mode: "host"
+    expose:
+     - 5432
+
+  app: 
+    build: . 
+    command: npm start && /wait
+    ports:
+      - "8000:8000"
+    network_mode: "host"
+    volumes:
+      - .:/usr/app ## monitoro a pasta atual . e envio as alterações para /usr/app
+    depends_on:
+     - postgres
+    environment:
+     - WAIT_HOSTS=postgres:5432
