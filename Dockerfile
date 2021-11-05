@@ -11,6 +11,6 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
 RUN chmod -x /wait
 COPY . .
 
-EXPOSE 8000
+EXPOSE ${PORT}
 
 CMD npm start

@@ -18,7 +18,7 @@ services: ## Define um serviço
     build: . 
     command: npm start && /wait
     ports:
-      - "8000:8000"
+      - "${PORT}:${PORT}"
     network_mode: "host"
     volumes:
       - .:/usr/app ## monitoro a pasta atual . e envio as alterações para /usr/app
