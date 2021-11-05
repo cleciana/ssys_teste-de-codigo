@@ -1,4 +1,4 @@
-require('dotenv/config');
+require('dotenv').config();
 
 const { Manager } = require('../models');
 const jwt = require('jsonwebtoken');
