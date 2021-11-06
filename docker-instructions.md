@@ -11,4 +11,4 @@
 3. Agora é possível acessar as rotas da aplicação.
 Use as credenciais do Manager (você pode vê-las na pasta </br> src/app/database/seeders/) para fazer [login](http://localhost:8000/login)
 
-- Para que seja possível cadastrar ou fazer qualquer operação com um Employee funcionário (remoção, atualização, etc) é necessário o token de autenticação recebido no login.
+- Para que seja possível cadastrar ou fazer qualquer operação com um Employee (remoção, atualização, etc) é necessário o token de autenticação recebido no login.
