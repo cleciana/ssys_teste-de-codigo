@@ -8,14 +8,9 @@ const ageReport = async (req, res) => {
 			const olderBirth = await Employee.min('birth_date');
 			const youngerBirth = await Employee.max('birth_date');
 
-			const younger = await Employee.findOne({
-				attributes: ['id','name','email','department','salary','birth_date'],
-				where: {birth_date: youngerBirth}
-			});
-			const older = await Employee.findOne({
-				attributes: ['id','name','email','department','salary','birth_date'],
-				where: {birth_date: olderBirth}
-			});
+			const younger = util.findEmployeeByBirthDate(youngerBirth);
+
+			const older = util.findEmployeeByBirthDate(olderBirth);
 
 			return res.status(200).json({
 				younger, older, average: util.avg(
@@ -38,14 +33,8 @@ const salaryReport = async (req, res) => {
 			const lowestSalary = await Employee.min('salary');
 			const highestSalary = await Employee.max('salary');
 
-			const lowest = await Employee.findOne({
-				attributes: ['id','name','email','department','salary','birth_date'],
-				where: {salary: lowestSalary}
-			});
-			const highest = await Employee.findOne({
-				attributes: ['id','name','email','department','salary','birth_date'],
-				where: {salary: highestSalary}
-			});
+			const lowest = util.findEmployeeBySalary(lowestSalary);
+			const highest = util.findEmployeeBySalary(highestSalary);
 
 			return res.status(200).json({
 				lowest, highest, average: util.avg(lowestSalary, highestSalary)
